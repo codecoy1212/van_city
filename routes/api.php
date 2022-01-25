@@ -26,8 +26,8 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::post('mobile/logout',[MobileController::class,'log_out']);
     Route::post('mobile/classes/add',[MobileController::class,'add_class']);
     Route::get('mobile/classes/show',[MobileController::class,'show_classes']);
-    Route::get('mobile/classes/update',[MobileController::class,'update_class']);
-    Route::get('mobile/classes/remove',[MobileController::class,'remove_class']);
+    Route::post('mobile/classes/update',[MobileController::class,'update_class']);
+    Route::post('mobile/classes/remove',[MobileController::class,'remove_class']);
     Route::get('mobile/classes/show/specific',[MobileController::class,'show_class']);
     Route::get('mobile/class/students/show',[MobileController::class,'show_class_students']);
     Route::post('mobile/class/students/update',[MobileController::class,'update_class_students']);   //DEL ADD FROM CLASS
@@ -35,16 +35,14 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::post('mobile/students/update',[MobileController::class,'update_student']);
     Route::get('mobile/students/show/specific',[MobileController::class,'show_student']);
     Route::get('mobile/students/show',[MobileController::class,'show_students']);
-    Route::get('mobile/students/remove',[MobileController::class,'remove_student']);
+    Route::post('mobile/students/remove',[MobileController::class,'remove_student']);
     Route::post('mobile/email/all',[MobileController::class,'send_all']);
     Route::post('mobile/email/specific',[MobileController::class,'send_specific']);
     Route::post('mobile/attendance/mark',[MobileController::class,'mark_attendance']);
     #EXTRAS
-    Route::get('mobile/calender/date_wise',[MobileController::class,'show_attendance']);
-    Route::get('mobile/students/show/wrt_date',[MobileController::class,'specific_students']);
+    Route::get('mobile/attendance/date_wise',[MobileController::class,'show_attendance']);
     Route::get('mobile/students/search',[MobileController::class,'search_students']);
-    Route::get('mobile/calender/classes/count',[MobileController::class,'classes_count']);
-    Route::get('mobile/calender/classes/specific_date',[MobileController::class,'classes_specific']);
+    Route::get('mobile/calender/classes',[MobileController::class,'classes_count']);
 });
 
 #default

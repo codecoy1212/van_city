@@ -18,6 +18,7 @@ class CreateLecturesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('start_date');       //ONLY LECTURE START DATE
+            $table->string('end_date');
             $table->string('start_time');
             $table->string('end_time');
             $table->timestamps();
