@@ -37,8 +37,8 @@ class MobileController extends Controller
                 $dbpwd = $verification->password;
                 $str['status']=true;
                 $str['message']="ADMIN LOGGED IN";
+                $verification->token = $token;
                 $str['data']=$verification;
-                $str['token']=$token;
                 return $str;
             }
             else
