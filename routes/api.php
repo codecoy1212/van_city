@@ -24,25 +24,25 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     //All secure URL's
     #MAIN
     Route::post('mobile/logout',[MobileController::class,'log_out']);
-    Route::post('mobile/classes/add',[MobileController::class,'add_class']);
-    Route::get('mobile/classes/show',[MobileController::class,'show_classes']);
-    Route::post('mobile/classes/update',[MobileController::class,'update_class']);
-    Route::post('mobile/classes/remove',[MobileController::class,'remove_class']);
-    Route::get('mobile/classes/show/specific',[MobileController::class,'show_class']);
-    Route::get('mobile/class/students/show',[MobileController::class,'show_class_students']);
-    Route::post('mobile/class/students/update',[MobileController::class,'update_class_students']);   //DEL ADD FROM CLASS
-    Route::post('mobile/students/add',[MobileController::class,'add_student']);
-    Route::post('mobile/students/update',[MobileController::class,'update_student']);
-    Route::get('mobile/students/show/specific',[MobileController::class,'show_student']);
-    Route::get('mobile/students/show',[MobileController::class,'show_students']);
-    Route::post('mobile/students/remove',[MobileController::class,'remove_student']);
-    Route::post('mobile/email/all',[MobileController::class,'send_all']);
-    Route::post('mobile/email/specific',[MobileController::class,'send_specific']);
-    Route::post('mobile/attendance/mark',[MobileController::class,'mark_attendance']);
+    Route::post('mobile/add_class',[MobileController::class,'add_class']);
+    Route::get('mobile/show_classes',[MobileController::class,'show_classes']);
+    Route::post('mobile/update_class',[MobileController::class,'update_class']);
+    Route::post('mobile/remove_class',[MobileController::class,'remove_class']);
+    Route::get('mobile/show_specific_class',[MobileController::class,'show_class']);
+    Route::get('mobile/show_class_students',[MobileController::class,'show_class_students']);
+    Route::post('mobile/update_class_students',[MobileController::class,'update_class_students']);   //DEL ADD FROM CLASS
+    Route::post('mobile/add_student',[MobileController::class,'add_student']);
+    Route::post('mobile/update_student',[MobileController::class,'update_student']);
+    Route::get('mobile/show_specific_student',[MobileController::class,'show_student']);
+    Route::get('mobile/show_students',[MobileController::class,'show_students']);
+    Route::post('mobile/remove_student',[MobileController::class,'remove_student']);
+    Route::post('mobile/email_all',[MobileController::class,'send_all']);
+    Route::post('mobile/email_specific',[MobileController::class,'send_specific']);
+    Route::post('mobile/mark_attendance',[MobileController::class,'mark_attendance']);
     #EXTRAS
-    Route::get('mobile/attendance/date_wise',[MobileController::class,'show_attendance']);
-    Route::get('mobile/students/search',[MobileController::class,'search_students']);
-    Route::get('mobile/calender/classes',[MobileController::class,'classes_count']);
+    Route::get('mobile/show_attendance',[MobileController::class,'show_attendance']);
+    Route::get('mobile/search_students',[MobileController::class,'search_students']);
+    Route::get('mobile/calender_classes',[MobileController::class,'classes_count']);
 });
 
 #default
@@ -52,3 +52,4 @@ Route::get('default',function(){
     return $str;
 })->name('default');
 Route::post('mobile/login',[MobileController::class,'login']);
+
