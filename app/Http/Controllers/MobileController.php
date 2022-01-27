@@ -460,7 +460,7 @@ class MobileController extends Controller
 
             $str['status']=true;
             $str['message']="STUDENT ADDED TO THE DATABASE";
-            $str['data']=$var;
+            // $str['data']=$var;
             return $str;
 
         }
@@ -504,7 +504,7 @@ class MobileController extends Controller
 
             $str['status']=true;
             $str['message']="STUDENT UPDATED TO THE DATABASE";
-            $str['data']=$var;
+            // $str['data']=$var;
             return $str;
 
         }
