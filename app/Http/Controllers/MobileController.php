@@ -115,8 +115,8 @@ class MobileController extends Controller
             'name'=> 'required|min:3',
             'start_date'=> 'required|date_format:Y-m-d',
             'end_date'=> 'required|date_format:Y-m-d',
-            'start_time'=> 'required|date_format:h:i:s A',
-            'end_time'=> 'required|date_format:h:i:s A',
+            'start_time'=> 'required',
+            'end_time'=> 'required',
             'lecture_students' => 'exists:students,id',
 
         ], [
@@ -210,8 +210,12 @@ class MobileController extends Controller
             $vbl3->name = $request->name;
             $vbl3->start_date = $request->start_date;
             $vbl3->end_date = $request->end_date;
-            $vbl3->start_time = $request->start_time;
-            $vbl3->end_time = $request->end_time;
+
+            $eg1 = date('h:i:s A',strtotime($request->start_time));
+            $eg2 = date('h:i:s A',strtotime($request->end_time));
+
+            $vbl3->start_time = $eg1;
+            $vbl3->end_time = $eg2;
             $vbl3->save();
             foreach ($days_done as $value2) {
                 $vbl5 = new LectureDay;
