@@ -152,43 +152,43 @@ class MobileController extends Controller
                 $vbl2 = $request->lecture_days;
                 sort($vbl2);
                 foreach ($vbl2 as $value) {
-                    if($value == "Sun"){
-                        if (in_array("Sun", $days_done)){}
+                    if($value == "Sunday"){
+                        if (in_array("Sunday", $days_done)){}
                         else
-                        array_push($days_done,"Sun");
+                        array_push($days_done,"Sunday");
                     }
-                    if($value == "Mon"){
-                        if (in_array("Mon", $days_done)){}
+                    if($value == "Monday"){
+                        if (in_array("Monday", $days_done)){}
                         else
-                        array_push($days_done,"Mon");
+                        array_push($days_done,"Monday");
                     }
-                    if($value == "Tue"){
-                        if (in_array("Tue", $days_done)){}
+                    if($value == "Tuesday"){
+                        if (in_array("Tuesday", $days_done)){}
                         else
-                        array_push($days_done,"Tue");
+                        array_push($days_done,"Tuesday");
                     }
-                    if($value == "Wed"){
-                        if (in_array("Wed", $days_done)){}
+                    if($value == "Wednesday"){
+                        if (in_array("Wednesday", $days_done)){}
                         else
-                        array_push($days_done,"Wed");
+                        array_push($days_done,"Wednesday");
                     }
-                    if($value == "Thu"){
-                        if (in_array("Thu", $days_done)){}
+                    if($value == "Thursday"){
+                        if (in_array("Thursday", $days_done)){}
                         else
-                        array_push($days_done,"Thu");
+                        array_push($days_done,"Thursday");
                     }
-                    if($value == "Fri"){
-                        if (in_array("Fri", $days_done)){}
+                    if($value == "Friday"){
+                        if (in_array("Friday", $days_done)){}
                         else
-                        array_push($days_done,"Fri");
+                        array_push($days_done,"Friday");
                     }
-                    if($value == "Sat"){
-                        if (in_array("Sat", $days_done)){}
+                    if($value == "Saturday"){
+                        if (in_array("Saturday", $days_done)){}
                         else
-                        array_push($days_done,"Sat");
+                        array_push($days_done,"Saturday");
                     }
-                    if($value != "Sun" && $value != "Mon" && $value != "Tue" && $value != "Wed" &&
-                    $value != "Thu" && $value != "Fri" && $value != "Sat")
+                    if($value != "Sunday" && $value != "Monday" && $value != "Tuesday" && $value != "Wednesday" &&
+                    $value != "Thursday" && $value != "Friday" && $value != "Saturday")
                     {
                         $str['status']=false;
                         $str['message']="WEEK DAYS NOT VALID";
@@ -199,7 +199,8 @@ class MobileController extends Controller
             // // $today_date = date('Y-m-d');
             // // $today_date = "2022-01-23";
             $today_date = $request->start_date;
-            $today = date('D',strtotime($today_date));
+            $today = date('l',strtotime($today_date));
+            // return $today;
             if (in_array($today, $days_done)){}
             else
             array_push($days_done,$today);
@@ -331,43 +332,43 @@ class MobileController extends Controller
                 $vbl2 = $request->lecture_days;
                 sort($vbl2);
                 foreach ($vbl2 as $value) {
-                    if($value == "Sun"){
-                        if (in_array("Sun", $days_done)){}
+                    if($value == "Sunday"){
+                        if (in_array("Sunday", $days_done)){}
                         else
-                        array_push($days_done,"Sun");
+                        array_push($days_done,"Sunday");
                     }
-                    if($value == "Mon"){
-                        if (in_array("Mon", $days_done)){}
+                    if($value == "Monday"){
+                        if (in_array("Monday", $days_done)){}
                         else
-                        array_push($days_done,"Mon");
+                        array_push($days_done,"Monday");
                     }
-                    if($value == "Tue"){
-                        if (in_array("Tue", $days_done)){}
+                    if($value == "Tuesday"){
+                        if (in_array("Tuesday", $days_done)){}
                         else
-                        array_push($days_done,"Tue");
+                        array_push($days_done,"Tuesday");
                     }
-                    if($value == "Wed"){
-                        if (in_array("Wed", $days_done)){}
+                    if($value == "Wednesday"){
+                        if (in_array("Wednesday", $days_done)){}
                         else
-                        array_push($days_done,"Wed");
+                        array_push($days_done,"Wednesday");
                     }
-                    if($value == "Thu"){
-                        if (in_array("Thu", $days_done)){}
+                    if($value == "Thursday"){
+                        if (in_array("Thursday", $days_done)){}
                         else
-                        array_push($days_done,"Thu");
+                        array_push($days_done,"Thursday");
                     }
-                    if($value == "Fri"){
-                        if (in_array("Fri", $days_done)){}
+                    if($value == "Friday"){
+                        if (in_array("Friday", $days_done)){}
                         else
-                        array_push($days_done,"Fri");
+                        array_push($days_done,"Friday");
                     }
-                    if($value == "Sat"){
-                        if (in_array("Sat", $days_done)){}
+                    if($value == "Saturday"){
+                        if (in_array("Saturday", $days_done)){}
                         else
-                        array_push($days_done,"Sat");
+                        array_push($days_done,"Saturday");
                     }
-                    if($value != "Sun" && $value != "Mon" && $value != "Tue" && $value != "Wed" &&
-                    $value != "Thu" && $value != "Fri" && $value != "Sat")
+                    if($value != "Sunday" && $value != "Monday" && $value != "Tuesday" && $value != "Wednesday" &&
+                    $value != "Thursday" && $value != "Friday" && $value != "Saturday")
                     {
                         $str['status']=false;
                         $str['message']="WEEK DAYS NOT VALID";
@@ -378,7 +379,7 @@ class MobileController extends Controller
             // // $today_date = date('Y-m-d');
             // // $today_date = "2022-01-23";
             $today_date = $request->start_date;
-            $today = date('D',strtotime($today_date));
+            $today = date('l',strtotime($today_date));
             if (in_array($today, $days_done)){}
             else
             array_push($days_done,$today);
@@ -694,7 +695,7 @@ class MobileController extends Controller
             $final_array = array();
             foreach ($period as $dt) {
                 $vbl6 = $dt->format("Y-m-d");
-                $day = date('D',strtotime($vbl6));
+                $day = date('l',strtotime($vbl6));
                 // echo $day10 = date('Y-m-d',strtotime($vbl6));
                 // echo "\n";
 
@@ -782,7 +783,7 @@ class MobileController extends Controller
             // $vbl = Lecture::all();
 
             $today_date = $request->date;
-            $day = date('D',strtotime($today_date));
+            $day = date('l',strtotime($today_date));
             // return $day;
             $vbl = DB::table('lecture_days')
             ->where('lecture_day',$day)
