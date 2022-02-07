@@ -469,9 +469,9 @@ class MobileController extends Controller
     public function update_student(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'student_id'=> 'required|exists:students,id',
+            'id'=> 'required|exists:students,id',
             'name'=> 'required|min:3',
-            'email'=> 'required|email:rfc,dns|unique:students,email,'.$request->student_id,
+            'email'=> 'required|email:rfc,dns|unique:students,email,'.$request->id,
             'phone' => 'required|digits:11',
 
         ], [
@@ -496,7 +496,7 @@ class MobileController extends Controller
         }
         else
         {
-            $var = Student::find($request->student_id);
+            $var = Student::find($request->id);
             $var->name = $request->name;
             $var->email = $request->email;
             $var->phone = $request->phone;
