@@ -248,7 +248,7 @@ class MobileController extends Controller
     public function remove_class(Request $request)
     {
         // return $request;
-        $vbl = Lecture::find($request->class_id);
+        $vbl = Lecture::find($request->id);
 
         if(empty($vbl))
         {
@@ -271,7 +271,7 @@ class MobileController extends Controller
 
     public function show_class(Request $request)
     {
-        $vbl = Lecture::find($request->class_id);
+        $vbl = Lecture::find($request->id);
 
         if(empty($vbl))
         {
@@ -293,7 +293,7 @@ class MobileController extends Controller
         // return "HELLO";
         // return $request;
         $validator = Validator::make($request->all(),[
-            'class_id'=> 'required|exists:lectures,id',
+            'id'=> 'required|exists:lectures,id',
             'name'=> 'required|min:3',
             'start_date'=> 'required|date_format:Y-m-d',
             'end_date'=> 'required|date_format:Y-m-d',
@@ -386,7 +386,7 @@ class MobileController extends Controller
             sort($days_done);
             // // return $days_done;
 
-            $vbl3 = Lecture::find($request->class_id);
+            $vbl3 = Lecture::find($request->id);
             $vbl3->name = $request->name;
             $vbl3->start_date = $request->start_date;
             $vbl3->end_date = $request->end_date;
@@ -588,7 +588,7 @@ class MobileController extends Controller
 
     public function show_attendance(Request $request)
     {
-        $vbl0 = Lecture::find($request->class_id);
+        $vbl0 = Lecture::find($request->id);
         if(empty($vbl0))
         {
             $str['status']=false;
@@ -597,10 +597,10 @@ class MobileController extends Controller
         }
 
         // return $request;
-        // $vbl = Attendance::where('date',$request->date)->where('lecture_id',$request->class_id)->get();
+        // $vbl = Attendance::where('date',$request->date)->where('lecture_id',$request->id)->get();
         $vbl = DB::table('attendances')
         ->where('date','=',$request->date)
-        ->where('lecture_id','=',$request->class_id)
+        ->where('lecture_id','=',$request->id)
         ->join('students','students.id','=','attendances.student_id')
         ->select('students.*')
         ->get();
@@ -625,7 +625,7 @@ class MobileController extends Controller
     {
         // return $request;
 
-        $vbl0 = Attendance::where('lecture_id',$request->class_id)->where('date',date('Y-m-d'))->first();
+        $vbl0 = Attendance::where('lecture_id',$request->id)->where('date',date('Y-m-d'))->first();
         // return $vbl0;
         if(empty($vbl0)){}
         else
@@ -635,7 +635,7 @@ class MobileController extends Controller
             return $str;
         }
 
-        $vbl = StudentLecture::where('lecture_id',$request->class_id)->get();
+        $vbl = StudentLecture::where('lecture_id',$request->id)->get();
         // echo count($vbl);
         $vbl2 = $request->lecture_students;
         // echo $vbl2;
@@ -664,7 +664,7 @@ class MobileController extends Controller
                     $vbl3->date = $today;
                     $vbl3->student_id = $value['student_id'];
                     $vbl3->status = $value['status'];
-                    $vbl3->lecture_id = $request->class_id;
+                    $vbl3->lecture_id = $request->id;
                     $vbl3->save();
                     array_push($stu_list, $value['student_id']);
                 }
@@ -843,7 +843,7 @@ class MobileController extends Controller
 
     public function search_students(Request $request)
     {
-        // $vbl = StudentLecture::where('lecture_id',$request->class_id)->get();
+        // $vbl = StudentLecture::where('lecture_id',$request->id)->get();
         $vbl = DB::table('students')
         ->select('students.*')
         ->where('id', 'like',"%".$request->search."%")
@@ -870,9 +870,9 @@ class MobileController extends Controller
 
     public function show_class_students(Request $request)
     {
-        // $vbl = StudentLecture::where('lecture_id',$request->class_id)->get();
+        // $vbl = StudentLecture::where('lecture_id',$request->id)->get();
         $vbl = DB::table('student_lectures')
-        ->where('lecture_id',$request->class_id)
+        ->where('lecture_id',$request->id)
         ->join('students','students.id','=','student_lectures.student_id')
         ->select('students.*')
         ->get();
@@ -896,7 +896,7 @@ class MobileController extends Controller
     {
         // return $request;
         $validator = Validator::make($request->all(),[
-            'class_id'=> 'required|exists:lectures,id',
+            'id'=> 'required|exists:lectures,id',
             'lecture_students' => 'exists:students,id',
         ], [
             'lecture_students.exists' => 'Student ID does not exists.',
@@ -916,14 +916,14 @@ class MobileController extends Controller
         {
             if (count($request->lecture_students) != 0)
             {
-                StudentLecture::where('lecture_id',$request->class_id)->delete();
+                StudentLecture::where('lecture_id',$request->id)->delete();
 
                 $stu_list = array();
                 foreach ($request->lecture_students as $value) {
                     if (in_array($value, $stu_list)){}
                     else{
                         $vbl4 = new StudentLecture;
-                        $vbl4->lecture_id = $request->class_id;
+                        $vbl4->lecture_id = $request->id;
                         $vbl4->student_id = $value;
                         $vbl4->save();
                         array_push($stu_list,$value);
@@ -932,7 +932,7 @@ class MobileController extends Controller
             }
             else
             {
-                StudentLecture::where('lecture_id',$request->class_id)->delete();
+                StudentLecture::where('lecture_id',$request->id)->delete();
             }
 
             $str['status']=true;
