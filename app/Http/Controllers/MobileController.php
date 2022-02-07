@@ -512,7 +512,7 @@ class MobileController extends Controller
 
     public function remove_student(Request $request)
     {
-        $vbl = Student::find($request->student_id);
+        $vbl = Student::find($request->id);
 
         if(empty($vbl))
         {
@@ -531,7 +531,7 @@ class MobileController extends Controller
 
     public function show_student(Request $request)
     {
-        $vbl = Student::find($request->student_id);
+        $vbl = Student::find($request->id);
 
         if(empty($vbl))
         {
