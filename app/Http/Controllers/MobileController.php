@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use SebastianBergmann\CodeUnit\FunctionUnit;
 
 class MobileController extends Controller
 {
@@ -938,6 +939,51 @@ class MobileController extends Controller
             $str['status']=true;
             $str['message']="CLASS STUDENT LIST UPDATED";
             return $str;
+        }
+    }
+
+    public function delete_class_students(Request $request)
+    {
+        // return $request;
+        $validator = Validator::make($request->all(),[
+            'id'=> 'required|exists:lectures,id',
+            'lecture_students' => 'exists:students,id',
+        ], [
+            'lecture_students.exists' => 'Student ID does not exists.',
+            ]);
+        if ($validator->fails())
+        {
+            $str['status']=false;
+            $error=$validator->errors()->toArray();
+            foreach($error as $x_value){
+                $err[]=$x_value[0];
+            }
+             $str['message'] =$err['0'];
+            // $str['data'] = $validator->errors()->toArray();
+            return $str;
+        }
+        else
+        {
+            if (count($request->lecture_students) != 0)
+            {
+                foreach ($request->lecture_students as $value) {
+                    // echo $value;
+                    StudentLecture::where('lecture_id',$request->id)
+                    ->where('student_id',$value)->delete();
+                }
+
+                $str['status']=false;
+                $str['message']="GIVEN STUDENTS DELETED FROM DB";
+                return $str;
+            }
+            else
+            {
+                $str['status']=false;
+                $str['message']="GIVEN STUDENT LIST EMPTY";
+                return $str;
+            }
+
+
         }
     }
 }
