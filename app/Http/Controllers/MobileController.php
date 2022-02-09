@@ -603,7 +603,7 @@ class MobileController extends Controller
         ->where('date','=',$request->date)
         ->where('lecture_id','=',$request->id)
         ->join('students','students.id','=','attendances.student_id')
-        ->select('students.*')
+        ->select('students.*','attendances.status')
         ->get();
         // return $vbl;
 
