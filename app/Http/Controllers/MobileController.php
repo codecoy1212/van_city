@@ -702,12 +702,15 @@ class MobileController extends Controller
                 $vbl6 = $dt->format("Y-m-d");
                 $day = date('l',strtotime($vbl6));
                 // echo $day10 = date('Y-m-d',strtotime($vbl6));
+                // echo $vbl6;
                 // echo "\n";
 
                 $vbl = DB::table('lecture_days')
                 ->join('lectures','lectures.id','=','lecture_days.lecture_id')
                 ->select('lecture_days.lecture_day','lectures.*')
                 ->get();
+
+                // return $vbl;
 
                 if(count($vbl) == 0)
                 {
@@ -717,18 +720,26 @@ class MobileController extends Controller
                 }
 
                 foreach ($vbl as $value) {
+                    // echo $value->name;
+                    // echo "\n";
                     // echo $value->lecture_day."\n";
                     if($value->lecture_day == $day)
                     {
+                        // echo $value->name;
+                        // echo "\n";
+
                         $day2 = date('Y-m-d',strtotime($value->start_date));
                         $day4 = strtotime($day2);
+                        // echo $day2;
                         // echo "\n";
                         $day3 = date('Y-m-d',strtotime($vbl6));
                         $day5 = strtotime($day3);
+                        // echo $day3;
                         // echo "\n";
-
                         $day8 = date('Y-m-d',strtotime($value->end_date));
                         $day9 = strtotime($day8);
+                        // echo $day8;
+                        // echo "\n";
                         // echo "\n";
                         // echo "HELLO HELLO HELLO";
                         // echo "\n";
