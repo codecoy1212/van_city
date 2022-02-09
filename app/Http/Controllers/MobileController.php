@@ -972,7 +972,7 @@ class MobileController extends Controller
                     ->where('student_id',$value)->delete();
                 }
 
-                $str['status']=false;
+                $str['status']=true;
                 $str['message']="GIVEN STUDENTS DELETED FROM DB";
                 return $str;
             }
