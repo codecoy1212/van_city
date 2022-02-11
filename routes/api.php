@@ -43,6 +43,8 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
     Route::post('mobile/add_payment',[MobileController::class,'add_payment']);
     Route::get('mobile/payment_history',[MobileController::class,'payment_history']);
     Route::post('mobile/payment_collected',[MobileController::class,'payment_collected']);
+    Route::post('mobile/email_students',[MobileController::class,'email_students']);
+    Route::post('mobile/email_class',[MobileController::class,'email_class']);
     #EXTRAS
     Route::get('mobile/show_attendance',[MobileController::class,'show_attendance']);
     Route::get('mobile/search_students',[MobileController::class,'search_students']);

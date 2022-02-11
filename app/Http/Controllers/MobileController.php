@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\GeneralMail;
 use App\Models\Attendance;
 use App\Models\FeeDetail;
 use App\Models\Lecture;
@@ -14,6 +15,7 @@ use DatePeriod;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use SebastianBergmann\CodeUnit\FunctionUnit;
@@ -1032,7 +1034,7 @@ class MobileController extends Controller
             $vbl0 = FeeDetail::where('student_id',$request->id)->first();
             if(!empty($vbl0))
             {
-                $str['status']=true;
+                $str['status']=false;
                 $str['message']="STUDENT FEE ALREADY ENTERED IN THE SYSTEM";
                 return $str;
             }
@@ -1078,15 +1080,7 @@ class MobileController extends Controller
             'next_due_date'=> 'required|date_format:Y-m-d',
             'next_amount' => 'required|numeric',
 
-        ], [
-            // 'name.required' => 'Please enter your Name.',
-            // 'name.min' => 'Name must be at least 3 characters.',
-            // 'email.required' => 'Please enter your Email.',
-            // 'email.unique' => 'Email is already registered.',
-            // 'email.email' => 'Email is invalid.',
-            // 'phone.required' => 'Phone number is required.',
-            // 'phone.digits' => 'Mobile number is not valid.',
-            ]);
+        ]);
         if ($validator->fails())
         {
             $str['status']=false;
@@ -1115,6 +1109,99 @@ class MobileController extends Controller
 
             $str['status']=true;
             $str['message']="FEE COLLECTED OF STUDENT";
+            return $str;
+        }
+    }
+
+    public function email_students(Request $request)
+    {
+        // return $request;
+        $validator = Validator::make($request->all(),[
+            'message'=> 'required',
+            'students_list'=> 'required',
+
+        ]);
+        if ($validator->fails())
+        {
+            $str['status']=false;
+            $error=$validator->errors()->toArray();
+            foreach($error as $x_value){
+                $err[]=$x_value[0];
+            }
+             $str['message'] =$err['0'];
+            // $str['data'] = $validator->errors()->toArray();
+            return $str;
+        }
+        else
+        {
+            foreach ($request->students_list as $value) {
+                $vbl = Student::find($value);
+                if(empty($vbl))
+                {
+                    $str['status']=true;
+                    $str['message']="STUDENTS NOT IN THE DB";
+                    return $str;
+                }
+            }
+
+            $msg = ['body' => $request->message];
+
+            $stu_list = array();
+            foreach ($request->students_list as $value) {
+                if (in_array($value, $stu_list)){}
+                else{
+                    $vbl = Student::find($value);
+                    Mail::to($vbl->email)->send(new GeneralMail($msg));
+                    array_push($stu_list,$value);
+                }
+            }
+            // return $stu_list;
+
+            $str['status']=true;
+            $str['message']="EMAIL SENT TO SPECIFIC STUDENTS";
+            return $str;
+        }
+    }
+
+    public function email_class(Request $request)
+    {
+        // return $request;
+        $validator = Validator::make($request->all(),[
+            'id' => 'required|exists:lectures,id',
+            'message'=> 'required',
+        ]);
+        if ($validator->fails())
+        {
+            $str['status']=false;
+            $error=$validator->errors()->toArray();
+            foreach($error as $x_value){
+                $err[]=$x_value[0];
+            }
+             $str['message'] =$err['0'];
+            // $str['data'] = $validator->errors()->toArray();
+            return $str;
+        }
+        else
+        {
+            $msg = ['body' => $request->message];
+
+            // $lectures = StudentLecture::where('lecture_id',$request->id)->get();
+            // return $lectures;
+
+            $lectures = DB::table('student_lectures')
+            ->where('lecture_id','=',$request->id)
+            ->join('students','students.id','=','student_id')
+            ->select('students.*')
+            ->get();
+            // return $lectures;
+
+            foreach ($lectures as $value) {
+                Mail::to($value->email)->send(new GeneralMail($msg));
+            }
+            // return $stu_list;
+
+            $str['status']=true;
+            $str['message']="EMAIL SENT TO WHOLE CLASS";
             return $str;
         }
     }
