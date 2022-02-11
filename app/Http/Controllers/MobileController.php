@@ -1001,24 +1001,70 @@ class MobileController extends Controller
 
     public function add_payment(Request $request)
     {
-        // return $request;
-        $vbl = new FeeDetail;
-        $vbl->student_id = $request->id;
-        $vbl->admission_date = $request->admission_date;
-        $vbl->due_date = $request->due_date;
-        $vbl->fee_amount = $request->amount;
-        $vbl->status = false;
-        $vbl->save();
+        $validator = Validator::make($request->all(),[
+            'id'=> 'required|exists:students,id',
+            'admission_date'=> 'required|date_format:Y-m-d',
+            'due_date'=> 'required|date_format:Y-m-d',
+            'amount' => 'required|numeric',
 
-        $str['status']=true;
-        $str['message']="FEE DATA ENTERED TO THE SYSTEM";
-        return $str;
+        ], [
+            // 'name.required' => 'Please enter your Name.',
+            // 'name.min' => 'Name must be at least 3 characters.',
+            // 'email.required' => 'Please enter your Email.',
+            // 'email.unique' => 'Email is already registered.',
+            // 'email.email' => 'Email is invalid.',
+            // 'phone.required' => 'Phone number is required.',
+            // 'phone.digits' => 'Mobile number is not valid.',
+            ]);
+        if ($validator->fails())
+        {
+            $str['status']=false;
+            $error=$validator->errors()->toArray();
+            foreach($error as $x_value){
+                $err[]=$x_value[0];
+            }
+             $str['message'] =$err['0'];
+            // $str['data'] = $validator->errors()->toArray();
+            return $str;
+        }
+        else
+        {
+            $vbl0 = FeeDetail::where('student_id',$request->id)->first();
+            if(!empty($vbl0))
+            {
+                $str['status']=true;
+                $str['message']="STUDENT FEE ALREADY ENTERED IN THE SYSTEM";
+                return $str;
+            }
+
+            // return $request;
+            $vbl = new FeeDetail;
+            $vbl->student_id = $request->id;
+            $vbl->admission_date = $request->admission_date;
+            $vbl->due_date = $request->due_date;
+            $vbl->fee_amount = $request->amount;
+            $vbl->status = false;
+            $vbl->save();
+
+            $str['status']=true;
+            $str['message']="FEE DATA ENTERED TO THE SYSTEM";
+            return $str;
+        }
     }
 
     public function payment_history(Request $request)
     {
         // return "hello";
         $vbl = FeeDetail::where('student_id',$request->id)->get();
+
+        if(count($vbl) == 0)
+        {
+            $str['status']=false;
+            $str['message']="NO RECORDS AGAINST THIS STUDENT ID";
+            return $str;
+        }
+
+
         $str['status']=true;
         $str['message']="FEE DETAIL SHOWN OF SPECIFIC USER";
         $str['data'] = $vbl;
@@ -1027,21 +1073,49 @@ class MobileController extends Controller
 
     public function payment_collected(Request $request)
     {
-        $vbl0 = FeeDetail::orderBy('id','desc')->where('student_id',$request->id)->first();
-        $vbl0->status = true;
-        $vbl0->update();
-        // return $vbl0;
-        // return $request;
-        $vbl = new FeeDetail;
-        $vbl->student_id = $request->id;
-        $vbl->admission_date = $vbl0->admission_date;
-        $vbl->due_date = $request->next_due_date;
-        $vbl->fee_amount = $request->next_amount;
-        $vbl->status = false;
-        $vbl->save();
+        $validator = Validator::make($request->all(),[
+            'id'=> 'required|exists:students,id',
+            'next_due_date'=> 'required|date_format:Y-m-d',
+            'next_amount' => 'required|numeric',
 
-        $str['status']=true;
-        $str['message']="FEE COLLECTED OF STUDENT";
-        return $str;
+        ], [
+            // 'name.required' => 'Please enter your Name.',
+            // 'name.min' => 'Name must be at least 3 characters.',
+            // 'email.required' => 'Please enter your Email.',
+            // 'email.unique' => 'Email is already registered.',
+            // 'email.email' => 'Email is invalid.',
+            // 'phone.required' => 'Phone number is required.',
+            // 'phone.digits' => 'Mobile number is not valid.',
+            ]);
+        if ($validator->fails())
+        {
+            $str['status']=false;
+            $error=$validator->errors()->toArray();
+            foreach($error as $x_value){
+                $err[]=$x_value[0];
+            }
+             $str['message'] =$err['0'];
+            // $str['data'] = $validator->errors()->toArray();
+            return $str;
+        }
+        else
+        {
+            $vbl0 = FeeDetail::orderBy('id','desc')->where('student_id',$request->id)->first();
+            $vbl0->status = true;
+            $vbl0->update();
+            // return $vbl0;
+            // return $request;
+            $vbl = new FeeDetail;
+            $vbl->student_id = $request->id;
+            $vbl->admission_date = $vbl0->admission_date;
+            $vbl->due_date = $request->next_due_date;
+            $vbl->fee_amount = $request->next_amount;
+            $vbl->status = false;
+            $vbl->save();
+
+            $str['status']=true;
+            $str['message']="FEE COLLECTED OF STUDENT";
+            return $str;
+        }
     }
 }
