@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attendance;
+use App\Models\FeeDetail;
 use App\Models\Lecture;
 use App\Models\LectureDay;
 use App\Models\Student;
@@ -996,5 +997,51 @@ class MobileController extends Controller
 
 
         }
+    }
+
+    public function add_payment(Request $request)
+    {
+        // return $request;
+        $vbl = new FeeDetail;
+        $vbl->student_id = $request->id;
+        $vbl->admission_date = $request->admission_date;
+        $vbl->due_date = $request->due_date;
+        $vbl->fee_amount = $request->amount;
+        $vbl->status = false;
+        $vbl->save();
+
+        $str['status']=true;
+        $str['message']="FEE DATA ENTERED TO THE SYSTEM";
+        return $str;
+    }
+
+    public function payment_history(Request $request)
+    {
+        // return "hello";
+        $vbl = FeeDetail::where('student_id',$request->id)->get();
+        $str['status']=true;
+        $str['message']="FEE DETAIL SHOWN OF SPECIFIC USER";
+        $str['data'] = $vbl;
+        return $str;
+    }
+
+    public function payment_collected(Request $request)
+    {
+        $vbl0 = FeeDetail::orderBy('id','desc')->where('student_id',$request->id)->first();
+        $vbl0->status = true;
+        $vbl0->update();
+        // return $vbl0;
+        // return $request;
+        $vbl = new FeeDetail;
+        $vbl->student_id = $request->id;
+        $vbl->admission_date = $vbl0->admission_date;
+        $vbl->due_date = $request->next_due_date;
+        $vbl->fee_amount = $request->next_amount;
+        $vbl->status = false;
+        $vbl->save();
+
+        $str['status']=true;
+        $str['message']="FEE COLLECTED OF STUDENT";
+        return $str;
     }
 }
