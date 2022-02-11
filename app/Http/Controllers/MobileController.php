@@ -1138,7 +1138,7 @@ class MobileController extends Controller
                 $vbl = Student::find($value);
                 if(empty($vbl))
                 {
-                    $str['status']=true;
+                    $str['status']=false;
                     $str['message']="STUDENTS NOT IN THE DB";
                     return $str;
                 }
