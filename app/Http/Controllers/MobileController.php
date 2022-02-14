@@ -439,6 +439,7 @@ class MobileController extends Controller
             $var->name = $request->name;
             $var->email = $request->email;
             $var->phone = $request->phone;
+            $var->admission_date = date('Y-m-d');
             $var->save();
 
             $str['status'] = true;
