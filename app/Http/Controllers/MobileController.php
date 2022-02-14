@@ -995,7 +995,7 @@ class MobileController extends Controller
         $validator = Validator::make($request->all(), [
             'id' => 'required|exists:students,id',
             'next_due_date' => 'date_format:Y-m-d',
-            'next_amount' => 'numeric',
+            'next_amount' => 'string',
 
         ]);
         if ($validator->fails()) {
@@ -1154,16 +1154,17 @@ class MobileController extends Controller
         ->select('students.id as student_id','students.name as student_name','lectures.name as class_name')
         ->get();
 
-        // return $vbl;
+        return $vbl;
 
         $arr = array();
 
         foreach ($vbl as $value) {
             $vbl2 = FeeDetail::orderBy('id', 'desc')->where('student_id', $value->student_id)->first();
-            echo $vbl2->admission_date;
+            if(empty($vbl2))
+            {
+
+            }
         }
-
-
-        return $vbl;
+        // return $vbl;
     }
 }
