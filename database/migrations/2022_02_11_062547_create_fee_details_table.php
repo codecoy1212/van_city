@@ -16,7 +16,6 @@ class CreateFeeDetailsTable extends Migration
         Schema::create('fee_details', function (Blueprint $table) {
             $table->id();
             $table->foreignId('student_id')->constrained();
-            $table->string('admission_date');
             $table->string('due_date');
             $table->double('fee_amount',8,1);
             $table->boolean('status');
