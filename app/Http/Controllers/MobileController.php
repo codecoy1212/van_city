@@ -921,7 +921,7 @@ class MobileController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'id' => 'required|exists:students,id',
-            'admission_date' => 'required|date_format:Y-m-d',
+            // 'admission_date' => 'required|date_format:Y-m-d',
             'due_date' => 'required|date_format:Y-m-d',
             'amount' => 'required|numeric',
 
@@ -952,7 +952,7 @@ class MobileController extends Controller
             {
                 $vbl = new FeeDetail;
                 $vbl->student_id = $request->id;
-                $vbl->admission_date = $request->admission_date;
+                // $vbl->admission_date = $request->admission_date;
                 $vbl->due_date = $request->due_date;
                 $vbl->fee_amount = $request->amount;
                 $vbl->status = false;
@@ -963,7 +963,7 @@ class MobileController extends Controller
                 if ($vbl0->status == true) {
                     $vbl = new FeeDetail;
                     $vbl->student_id = $request->id;
-                    $vbl->admission_date = $request->admission_date;
+                    // $vbl->admission_date = $request->admission_date;
                     $vbl->due_date = $request->due_date;
                     $vbl->fee_amount = $request->amount;
                     $vbl->status = false;
@@ -1031,7 +1031,7 @@ class MobileController extends Controller
             {
                 $vbl = new FeeDetail;
                 $vbl->student_id = $request->id;
-                $vbl->admission_date = $vbl0->admission_date;
+                // $vbl->admission_date = $vbl0->admission_date;
                 $vbl->due_date = $request->next_due_date;
                 $vbl->fee_amount = $request->next_amount;
                 $vbl->status = false;
