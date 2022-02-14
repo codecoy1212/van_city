@@ -44,7 +44,20 @@ class SendNotCommand extends Command
         ->select('students.name as student_name','fee_details.*')
         ->get();
 
-        foreach($vbl as $user){
+        $arr = array();
+        foreach ($vbl as $value) {
+            $tm1 = strtotime($value->due_date);
+            $tm2 = date('Y-m-d');
+            $tm3 = strtotime($tm2);
+            $tm1 = $tm1-$tm3;
+
+            if($tm1 <= 172800)
+            {
+                array_push($arr,$value);
+            }
+        }
+
+        foreach($arr as $user){
             $SERVER_API_KEY = 'AAAAR0JMZJk:APA91bHlVp9p5nc6jse-m8QotoSH5d9RB_sdv9V9R9wsJnZV7SnqqZPqg0kfja7iZz03V9MicuUnpBggRn6LfmgjxJswmSuj4JGyeTtuuPXQwJmMVTH7eGQPwndv2Bs7jQ2j-bE82MCx';
             $data = [
                 "to" => '/topics/topic',
