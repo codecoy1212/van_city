@@ -1205,9 +1205,21 @@ class MobileController extends Controller
             }
         }
 
-        $str['status'] = true;
-        $str['message'] = "PENDING FEE STUDENTS SHOWN";
-        $str['data'] = $arr;
-        return $str;
+
+        if(count($arr) == 0)
+        {
+            $str['status'] = false;
+            $str['message'] = "NO NOTIFICATIONS TO SHOW";
+            return $str;
+        }
+        else
+        {
+            $str['status'] = true;
+            $str['message'] = "PENDING FEE STUDENTS SHOWN";
+            $str['data'] = $arr;
+            return $str;
+        }
+
+
     }
 }
