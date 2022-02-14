@@ -994,8 +994,8 @@ class MobileController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'id' => 'required|exists:students,id',
-            'next_due_date' => 'date_format:Y-m-d',
-            'next_amount' => 'string',
+            // 'next_due_date' => 'date_format:Y-m-d',
+            // 'next_amount' => 'numeric',
 
         ]);
         if ($validator->fails()) {
@@ -1146,25 +1146,6 @@ class MobileController extends Controller
 
     public function get_notifications()
     {
-        // return "HEKKI";
 
-        $vbl =  DB::table('student_lectures')
-        ->join('lectures','lectures.id','=','student_lectures.lecture_id')
-        ->join('students','students.id','=','student_lectures.student_id')
-        ->select('students.id as student_id','students.name as student_name','lectures.name as class_name')
-        ->get();
-
-        return $vbl;
-
-        $arr = array();
-
-        foreach ($vbl as $value) {
-            $vbl2 = FeeDetail::orderBy('id', 'desc')->where('student_id', $value->student_id)->first();
-            if(empty($vbl2))
-            {
-
-            }
-        }
-        // return $vbl;
     }
 }
