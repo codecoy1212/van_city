@@ -188,12 +188,18 @@ class MobileController extends Controller
             }
             // // $today_date = date('Y-m-d');
             // // $today_date = "2022-01-23";
-            $today_date = $request->start_date;
-            $today = date('l', strtotime($today_date));
-            // return $today;
-            if (in_array($today, $days_done)) {
-            } else
-                array_push($days_done, $today);
+
+
+
+            // $today_date = $request->start_date;
+            // $today = date('l', strtotime($today_date));
+            // // return $today;
+            // if (in_array($today, $days_done)) {
+            // } else
+            //     array_push($days_done, $today);
+
+
+
             sort($days_done);
             // // return $days_done;
 
@@ -358,11 +364,19 @@ class MobileController extends Controller
             }
             // // $today_date = date('Y-m-d');
             // // $today_date = "2022-01-23";
-            $today_date = $request->start_date;
-            $today = date('l', strtotime($today_date));
-            if (in_array($today, $days_done)) {
-            } else
-                array_push($days_done, $today);
+
+
+
+
+            // $today_date = $request->start_date;
+            // $today = date('l', strtotime($today_date));
+            // if (in_array($today, $days_done)) {
+            // } else
+            //     array_push($days_done, $today);
+
+
+
+
             sort($days_done);
             // // return $days_done;
 
@@ -414,7 +428,7 @@ class MobileController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|min:3',
             'email' => 'required|email:rfc,dns|unique:students,email',
-            'phone' => 'required|digits:11',
+            'phone' => 'required|numeric',
 
         ], [
             'name.required' => 'Please enter your Name.',
@@ -423,7 +437,7 @@ class MobileController extends Controller
             'email.unique' => 'Email is already registered.',
             'email.email' => 'Email is invalid.',
             'phone.required' => 'Phone number is required.',
-            'phone.digits' => 'Mobile number is not valid.',
+            'phone.numeric' => 'Mobile number is not valid.',
         ]);
         if ($validator->fails()) {
             $str['status'] = false;
@@ -455,7 +469,7 @@ class MobileController extends Controller
             'id' => 'required|exists:students,id',
             'name' => 'required|min:3',
             'email' => 'required|email:rfc,dns|unique:students,email,' . $request->id,
-            'phone' => 'required|digits:11',
+            'phone' => 'required|numeric',
 
         ], [
             'name.required' => 'Please enter your Name.',
@@ -464,7 +478,7 @@ class MobileController extends Controller
             'email.unique' => 'Email is already registered.',
             'email.email' => 'Email is invalid.',
             'phone.required' => 'Phone number is required.',
-            'phone.digits' => 'Mobile number is not valid.',
+            'phone.numeric' => 'Mobile number is not valid.',
         ]);
         if ($validator->fails()) {
             $str['status'] = false;
@@ -1220,7 +1234,39 @@ class MobileController extends Controller
             $str['data'] = $arr;
             return $str;
         }
+    }
 
+    public function get_student_classes(Request $request)
+    {
+        // return $request;
 
+        $vbl0 = Student::find($request->id);
+
+        if(empty($vbl0))
+        {
+            $str['status'] = false;
+            $str['message'] = "STUDENT ID DOES NOT EXIST";
+            return $str;
+        }
+
+        $vbl = DB::table('student_lectures')
+        ->where('student_id',$request->id)
+        ->join('lectures','lectures.id','=','student_lectures.lecture_id')
+        ->select('lectures.*')
+        ->get();
+
+        if(count($vbl) == 0)
+        {
+            $str['status'] = false;
+            $str['message'] = "NO CLASSES ASSIGNED TO THIS STUDENT YET";
+            return $str;
+        }
+        else
+        {
+            $str['status'] = true;
+            $str['message'] = "CLASSES OF SPECIFIC STUDENT SHOWN";
+            $str['data'] = $vbl;
+            return $str;
+        }
     }
 }
